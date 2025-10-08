@@ -1,0 +1,115 @@
+using System;
+using System.Xml.Serialization;
+namespace Cau1
+{
+    class Program
+    {
+        private static int n;
+        private static int[] a = new int[100005];
+
+        static void
+
+        Main(string[] args)
+        {
+            Console.WriteLine(Nhap so phan tu trong mang );
+            nhap();
+            int choice;
+            do
+            {
+                Console.WriteLine(n===== MENU =====);
+                Console.WriteLine(1. In mang);
+                Console.WriteLine(2. Tinh tong cac so le);
+                Console.WriteLine(3. Dem so nguyen to);
+                Console.WriteLine(4. Tim so chinh phuong nho nhat);
+                Console.WriteLine(0. Thoat);
+                Console.Write(Chon chuc nang );
+                bool check = false;
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine(Lua chon khong hop le!);
+                    continue;
+                }
+                switch (choice)
+                {
+                    case 1
+                        xuat();
+                        break;
+                    case 2
+                        Console.WriteLine(Tong cac so le la  + tongle());
+                        break;
+                    case 3
+                        Console.WriteLine(So luong cac so nguyen to la  + demsnt());
+                        break;
+                    case 4
+                        Console.WriteLine(So chinh phuong nho nhat la  + smallestscp());
+                        break;
+                    case 0
+                        Console.WriteLine(Ket thuc chuong trinh);
+                        break;
+                    default
+                        Console.WriteLine(Lua chon khong hop le!);
+                        break;
+
+                }
+            }
+            while (choice != 0);
+        }
+
+        static void nhap()
+        {
+            string x;
+            x = Console.ReadLine();
+            Int32.TryParse(x, out n);
+            Random rnd = new Random();
+            for (int i = 0; i  n; i++)
+                a[i] = rnd.Next(-1000, 1000);
+        }
+        
+        static void xuat()
+        {
+            for (int i = 0; i  n; i++)
+                Console.Write(a[i] +  );
+        }
+
+        static int tongle()
+        {
+            int s = 0;
+            for (int i = 0; i  n; i++) if (a[i] % 2 != 0) s += a[i];
+            return s;
+        }
+
+        static bool snt(int x)
+        {
+            if (x = 1) return false;
+		    if (x == 2) return true;
+		    if (x == 3) return true;
+		    if (x % 2 == 0) return false;
+	        if (x % 3 == 0) return false;
+	        for (int i = 5; i  i = x; i++)
+	        {
+    		    if (x % i == 0) return false;
+	        }
+		return true;
+
+        }
+        static int demsnt()
+        {
+            int cnt = 0;
+            for (int i = 0; i  n; i++)
+                if (snt(a[i]) == true) cnt++;
+            return cnt;
+        }
+        static int smallestscp()
+        {
+            int minn = -1;
+            for(int i = 0; i  n; i++)
+            {
+                if (Math.Sqrt(a[i])  Math.Sqrt(a[i])  == a[i]){
+                    minn = Math.Min(minn, a[i]);
+                }
+
+            }
+            return minn;
+        }
+    }
+}
