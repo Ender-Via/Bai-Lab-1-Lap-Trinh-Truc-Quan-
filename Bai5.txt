@@ -1,0 +1,104 @@
+using System;
+namespace SuperCreek
+{
+    class DATE
+    {
+        static void Main(string[] args)
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("\n===== MENU =====");
+                Console.WriteLine("Nhap 1 de nhap ngay");
+                Console.WriteLine("Nhap 0 de thoat");
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Moi nhap lai!");
+                    continue;
+                }
+                switch (choice){
+                    case 1:
+                        Caldays();
+                        break;
+                    case 0:
+                        Console.WriteLine("Thoat chuong trinh");
+                        break;
+                    default:
+                        Console.WriteLine("Moi nhap lai!");
+                        break;
+                }
+
+            } while (choice != 0);
+        }
+
+        static int countdays(int day, int month, int year)
+        {
+            int count = 0;
+            for(int i = 1; i < year; i++)
+            {
+                if (i % 4 == 0 && i % 100 != 0) count += 366;
+                else count += 365;
+            }
+            for (int i = 1; i < month; i++)
+            {
+                if (i == 1 || i == 3 || i == 5 || i == 7 || i == 8 || i == 12) count += 31;
+                else
+                {
+                    if (i == 4 || i == 6 || i == 9 || i == 11) count += 30;
+                    else
+                    {
+                        if (i == 2)
+                        {
+                            if (year % 4 == 0 && year % 100 != 0) count += 29;
+                            else count += 28;
+                        }
+                    }
+                }
+
+            }
+            count += day;
+            return count;
+
+        }
+        static void Caldays()
+        {
+            int day, month, year;
+            Console.WriteLine("Nhap ngay: ");
+            int.TryParse(Console.ReadLine(), out day);  
+            Console.WriteLine("Nhap thang: ");
+            int.TryParse(Console.ReadLine(), out month);
+            Console.WriteLine("Nhap nam: ");
+            int.TryParse(Console.ReadLine(), out year);
+
+            int cnt1 = countdays(3, 10, 2025);
+            int cnt2 = countdays(day, month, year);
+
+            int cnt = Math.Abs(cnt2 - cnt1);
+            cnt %= 7;
+            switch (cnt)
+            {
+                case 0:
+                    Console.WriteLine("Ngay nay la thu nam");
+                    break;
+                case 1:
+                    Console.WriteLine("Ngay nay la thu sau");
+                    break;
+                case 2:
+                    Console.WriteLine("Ngay nay la thu bay");
+                    break;
+                case 3:
+                    Console.WriteLine("Ngay nay la thu chu nhat");
+                    break;
+                case 4:
+                    Console.WriteLine("Ngay nay la thu hai");
+                    break;
+                case 5:
+                    Console.WriteLine("Ngay nay la thu ba");
+                    break;
+                case 6:
+                    Console.WriteLine("Ngay nay la thu tu");
+                    break;
+            }
+        }
+    }
+}
