@@ -1,0 +1,200 @@
+using Microsoft.VisualBasic.FileIO;
+using System.Data;
+
+namespace Super_Creek
+{
+    class MATRIX
+    {
+        public static int[,] a = new int[1005, 1005];
+        public static int n, m, k1, k2;
+        public static bool[] row = new bool[1005];
+        public static bool[] col = new bool[1005];
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Nhap so hang cua ma tran: ");
+            int.TryParse(Console.ReadLine(), out n);
+            Console.WriteLine("Nhap so cot cua ma tran: ");
+            int.TryParse(Console.ReadLine(), out m);
+            Random ryn = new Random();
+            for (int i = 0; i < n; i++)
+            {
+                row[i] = true;
+
+                for (int j = 0; j < m; j++)
+                {
+                    a[i, j] = ryn.Next(0, 1000);
+                    col[j] = true;
+                }
+            }
+
+            int choice;
+            do
+            {
+                Console.WriteLine("\n===== MENU =====");
+                Console.WriteLine("1: Xuat ma tran");
+                Console.WriteLine("2: Tim phan tu lon nhat, nho nhat");
+                Console.WriteLine("3: Tim dong co tong lon nhat");
+                Console.WriteLine("4: Tinh tong cac so khong phai la so nguyen to");
+                Console.WriteLine("5: Xoa dong thu k trong ma tran");
+                Console.WriteLine("6: Xoa cot co phan tu lon nhat trong ma tran");
+                Console.WriteLine("0: Thoat chuong trinh");
+
+                if(!int.TryParse(Console.ReadLine(), out choice)){
+                    Console.WriteLine("Nhap lai, lua chon khong co trong menu");
+                    continue;
+                }
+                switch (choice)
+                {
+                    case 1:
+                        xuat();
+                        break;
+                    case 2:
+                        minmax();
+                        break;
+                    case 3:
+                        largestrow();
+                        break;
+                    case 4:
+                        tongsnt();
+                        break;
+                    case 5:
+                        delrow();
+                        break;
+                    case 6:
+                        delcol();
+                        break;
+                    case 0:
+                        Console.WriteLine("Chuong trinh ket thuc");
+                        break;
+                    default:
+                        Console.WriteLine("Nhap lai, lua chon khong co trong menu");
+                        break;
+                }
+
+            } while (choice != 0);
+        }
+        
+        static void xuat()
+        {
+            Console.Write("Ma tran gom co " );
+            Console.Write((int)n - k1);
+            Console.Write(" hang va ");
+            Console.WriteLine(m - k2 + " cot");
+
+            for(int i = 0; i < n; i++)
+            {
+                if (row[i] == true)
+                {
+                    for (int j = 0; j < m; j++)
+                        if (col[j] == true) Console.Write(a[i, j] + " ");
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        static void minmax()
+        {
+            if(n - k1 == 0 || m - k2 == 0)
+            {
+                Console.WriteLine("Khong con phan tu nao");
+                return;
+            }
+            int minn = 1001;
+            int maxx = -1;
+            for(int i = 0; i < n; i++)
+                for(int j = 0; j < m; j++)
+                    if (row[i] == true && col[j] == true)
+                    {
+                        minn = Math.Min(minn, a[i, j]);
+                        maxx = Math.Max(maxx, a[i, j]);
+                    }
+            Console.WriteLine("Phan tu lon nhat la: " + maxx);
+            Console.WriteLine("Phan tu nho nhat la: " + minn);
+        }
+
+        static void largestrow()
+        {
+            int maxx = -1000000;
+            int ans = -1;
+            for(int i = 0; i < n; i++)
+            {
+                if (row[i] == true)
+                {
+                    int s = 0;
+                    for (int j = 0; j < m; j++) if (col[j] == true) s += a[i, j];
+                    if (maxx < s)
+                    {
+                        maxx = s;
+                        ans = i;
+                    }
+
+                }
+            }
+            if (ans == -1)
+                Console.WriteLine("Khong con dong nao");
+            else Console.WriteLine("Dong co tong lon nhat la " + ans + " tong la " + maxx);
+        }
+
+        static bool snt(int x)
+        {
+            if (x <= 1) return false;
+            if (x == 2 || x == 3) return true;
+            for (int i = 2; i * i <= x; i++)
+                if (x % i == 0) return false;
+            return true;
+        }
+        static void tongsnt()
+        {
+            int s = 0;
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                    if (col[j] == true && row[i] == true)
+                        if (snt(a[i, j]) == false) s++;
+            Console.WriteLine("Tong cac so nguyen to la: " + s);
+        }
+
+        static void delrow()
+        { 
+            int del;
+            Console.WriteLine("Nhap dong can xoa: ");
+            int.TryParse(Console.ReadLine(), out del);
+            del--;
+            int cnt = 0, i = 0;
+            while(cnt < del)
+            {
+                if (row[i] == true)
+                {
+                    cnt++;
+                    i++;
+                }
+                else i++;
+            }
+            row[del] = false;
+            k1++;
+        }
+        static void delcol()
+        {
+            if(k2 == m)
+            {
+                Console.WriteLine("Khong con gi de xoa");
+            }
+            int del = 0;
+            int maxx = -1;
+            for (int j = 0; j < m; j++)
+            {
+                if (col[j] == true)
+                    for(int i = 0; i < n; i++) if (row[i] == true)
+                        {
+                            if (a[i, j] > maxx)
+                            {
+                                maxx = a[i, j];
+                                del = j;
+                            }
+                        } 
+            }
+            col[del] = false;
+            k2++;
+        }
+
+    }
+}
