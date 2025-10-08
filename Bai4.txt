@@ -1,0 +1,66 @@
+using Microsoft.VisualBasic;
+using System;
+using System.Collections.Specialized;
+namespace Super_Creek
+{
+    class Date
+    {
+        static void Main(String[] args)
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("Nhap 1 de nhap ngay thang: ");
+                Console.WriteLine("Nhap 0 de huy");
+                if(!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Lua chon khong hop le!");
+                    continue;
+                }
+                switch (choice)
+                {
+                    case 1:
+                        day();
+                        break;
+                    case 0:
+                        Console.WriteLine("Ket thuc chuong trinh");
+                        break;
+                    default:
+                        Console.WriteLine("Lua chon khong hop le!");
+                        break;
+                }
+            } while (choice != 0);
+        }
+        
+        static void day()
+        {
+            Console.WriteLine("Moi nhap thang: ");
+            int month;
+            int.TryParse(Console.ReadLine(), out month);
+            if(month < 1 || month > 12)
+            {
+                Console.WriteLine("Thang khong hop le!");
+                return;
+            }
+            Console.WriteLine("Moi nhap nam: ");
+            int nam;
+            int.TryParse(Console.ReadLine(), out nam);
+            if (month == 4 || month == 6 || month == 9 || month == 11)
+            {
+                Console.WriteLine((int)30);
+                return;
+            }
+            if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12)
+            {
+                Console.WriteLine((int)31);
+                return;
+            }
+            if(nam % 4 == 0 && nam % 100 != 0)
+            {
+                Console.WriteLine((int)29);
+                return;
+            }
+            Console.WriteLine((int)28);
+        }
+    }
+}
