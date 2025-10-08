@@ -1,0 +1,81 @@
+using System;
+namespace Super_Creek
+{
+    class Date
+    {
+        static void Main(string[] args)
+        {
+            int choice;
+            do
+            {
+                Console.WriteLine("\n===== MENU =====");
+                Console.WriteLine("Nhap 1 de nhap ngay: ");
+                Console.WriteLine("Nhap 0 de thoat");
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Lua chon khong hop le!");
+                    continue;
+                }
+                switch (choice){
+                    case 1:
+                        ngay();
+                        break;
+                    case 0:
+                        Console.WriteLine("Thoat chuong trinh");
+                        break;
+                    default:
+                        Console.WriteLine("Lua chon khong hop le!");
+                        break;
+                }
+
+            } while (choice != 0);
+        }
+        
+        static void ngay()
+        {
+            int day, month, year;
+            Console.WriteLine("Moi nhap ngay: ");
+            day = int.Parse(Console.ReadLine());
+            Console.WriteLine("Moi nhap thang: ");
+            month = int.Parse(Console.ReadLine());
+            Console.WriteLine("Moi nhap nam: ");
+            year = int.Parse(Console.ReadLine());
+
+            if (day < 1 || day > 31)
+            {
+                Console.WriteLine("Ngay khong hop le!");
+                return;
+            }
+            if(month < 1 || month > 12)
+            {
+                Console.WriteLine("Ngay khong hop le!");
+                return;
+            }
+
+            if (month == 2)
+            {
+                if (year % 4 == 0 && year % 100 != 0)
+                {
+                    if (day > 29)
+                    {
+                        Console.WriteLine("Ngay khong hop le!");
+                        return;
+                    }
+                }
+                else if (day > 28)
+                {
+                    Console.WriteLine("Ngay khong hop le!");
+                    return;
+                }
+            }
+            if (day == 31)
+                if (month == 4 || month == 6 || month == 9 || month == 11)
+                {
+                    Console.WriteLine("Ngay khong hop le!");
+                    return;
+                }
+            Console.WriteLine("Ngay hop le");
+
+        }
+    }
+}
